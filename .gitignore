@@ -44,3 +44,5 @@ Thumbs.db
 .env
 application.properties         # avoid pushing credentials
 application-*.properties       # in case you use profiles like dev/prod
+
+

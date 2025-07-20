@@ -34,14 +34,16 @@ public class Project {
     // Many projects can be owned by one user
     @ManyToOne
     @JoinColumn(name = "owner_id")
-    @JsonIgnoreProperties("ownedProjects")
+    @JsonIgnoreProperties({"ownedProjects", "assignedTasks"})  // avoid user recursion
     private User owner;
 
     // One project can have multiple sprints
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"project", "tasks"})  // avoid sprint → project → sprint loop
     private List<Sprint> sprints;
 
     // One project can have multiple tasks
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"project", "assignedTo", "sprint"})  // avoid task → project loop
     private List<Task> tasks;
 }

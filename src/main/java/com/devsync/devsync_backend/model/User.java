@@ -8,7 +8,6 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 @Entity
 @Table(name = "users")
 @Data
@@ -30,18 +29,16 @@ public class User {
     @JsonIgnore
     private String password;
 
-
     private String role;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    // One user can own many projects
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("owner") 
+    @JsonIgnoreProperties({"owner", "sprints", "tasks"})  // important: avoid back nesting
     private List<Project> ownedProjects;
 
-    // One user can be assigned to many tasks
     @OneToMany(mappedBy = "assignedTo", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"assignedTo", "project"})  // prevent task → user → task loop
     private List<Task> assignedTasks;
 }

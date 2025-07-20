@@ -5,6 +5,8 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "tasks")
 @Data
@@ -27,18 +29,18 @@ public class Task {
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    // Task assigned to a user
     @ManyToOne
     @JoinColumn(name = "assigned_to")
+    @JsonIgnoreProperties({"assignedTasks", "ownedProjects"})  // avoid nested user-task-project loops
     private User assignedTo;
 
-    // Task belongs to a project
     @ManyToOne
     @JoinColumn(name = "project_id")
+    @JsonIgnoreProperties({"tasks", "sprints", "owner"})  // avoid nested project looping
     private Project project;
 
-    // Task is part of a sprint
     @ManyToOne
     @JoinColumn(name = "sprint_id")
+    @JsonIgnoreProperties("tasks")  // avoid task-sprint-task loop
     private Sprint sprint;
 }
