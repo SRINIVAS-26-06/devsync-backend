@@ -18,7 +18,7 @@ public class TaskController {
     private TaskService taskService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'PROJECT_MANAGER', 'DEVELOPER', 'TESTER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'DEVELOPER', 'TESTER')")
     public List<Task> getAllTasks() {
         return taskService.getAllTasks();
     }
@@ -48,13 +48,13 @@ public class TaskController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'PROJECT_MANAGER', 'DEVELOPER', 'TESTER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'DEVELOPER', 'TESTER')")
     public Task createTask(@RequestBody Task task) {
         return taskService.saveTask(task);
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'PROJECT_MANAGER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public void deleteTask(@PathVariable Long id) {
         taskService.deleteTask(id);
     }

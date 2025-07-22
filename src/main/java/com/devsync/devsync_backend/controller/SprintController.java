@@ -18,7 +18,7 @@ public class SprintController {
     private SprintService sprintService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'PROJECT_MANAGER', 'DEVELOPER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'DEVELOPER','TESTER')")
     public List<Sprint> getAllSprints() {
         return sprintService.getAllSprints();
     }
@@ -36,13 +36,13 @@ public class SprintController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'PROJECT_MANAGER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public Sprint createSprint(@RequestBody Sprint sprint) {
         return sprintService.saveSprint(sprint);
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'PROJECT_MANAGER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public void deleteSprint(@PathVariable Long id) {
         sprintService.deleteSprint(id);
     }

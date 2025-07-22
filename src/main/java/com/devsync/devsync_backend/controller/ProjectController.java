@@ -27,7 +27,7 @@ public class ProjectController {
     private UserRepository userRepository;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'PROJECT_MANAGER', 'DEVELOPER', 'USER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'DEVELOPER', 'USER')")
     public List<Project> getAllProjects() {
         return projectService.getAllProjects();
     }
@@ -39,13 +39,13 @@ public class ProjectController {
     }
 
     @GetMapping("/owner/{ownerId}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'PROJECT_MANAGER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public List<Project> getProjectsByOwner(@PathVariable Long ownerId) {
         return projectService.getProjectsByOwner(ownerId);
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'PROJECT_MANAGER', 'DEVELOPER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'DEVELOPER')")
     public ResponseEntity<?> createProject(@RequestBody ProjectRequest request) {
         Optional<User> ownerOpt = userRepository.findById(request.getOwnerId());
 
@@ -68,7 +68,7 @@ public class ProjectController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'PROJECT_MANAGER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public void deleteProject(@PathVariable Long id) {
         projectService.deleteProject(id);
     }
